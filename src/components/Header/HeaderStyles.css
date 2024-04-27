@@ -1,0 +1,14 @@
+.header {
+  color: #fff;
+}
+
+.header__logo {
+  font-size: 2rem;
+}
+
+.header__ui {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  list-style: none;
+}
