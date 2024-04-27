@@ -16,7 +16,8 @@ html {
   overflow-x: hidden;
 }
 
-header {
+header,
+section {
   width: 100%;
   padding: 2rem;
   display: flex;
