@@ -1,0 +1,6 @@
+.control__container {
+  display: flex;
+  flex: 1 0 45%;
+  width: 50%;
+  gap: 1rem;
+}

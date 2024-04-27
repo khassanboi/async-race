@@ -1,0 +1,22 @@
+.control__input {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.control__input[type="color"] {
+  padding: 0;
+  border-radius: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  align-self: center;
+}
+
+.control__input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.control__input[type="color"]::-webkit-color-swatch {
+  border: 1px solid #fff;
+}
