@@ -10,13 +10,14 @@
 }
 
 .btn--small {
-  padding: 0.2rem 0.5rem;
-  font-size: 0.8rem;
+  padding: 0.5rem;
+  font-size: 0.6rem;
   border-radius: 0.2rem;
   width: 100%;
+  align-self: center;
 }
 
-.btn:hover {
+.btn:not(.btn--active):hover {
   transform: translateY(-2px);
 }
 
@@ -32,10 +33,11 @@
   background-color: #000099;
 }
 
-.btn.btn--yellow {
+.btn.btn--yellow.btn--active {
   background-color: #ee8800;
+  pointer-events: none;
 }
 
-.btn.btn--yellow.btn--inactive {
+.btn.btn--yellow:not(.btn--active) {
   background-color: #999999;
 }

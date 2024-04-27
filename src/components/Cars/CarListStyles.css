@@ -1,0 +1,50 @@
+.cars {
+  padding: 0;
+  border-bottom: 0.05rem solid #fff;
+}
+
+.cars__car {
+  height: 100%;
+  display: flex;
+  padding: 0.5rem 0;
+}
+
+.cars__car-name {
+  margin-left: 1rem;
+  align-self: center;
+  width: 100%;
+}
+
+.cars__car-control {
+  display: grid;
+  grid-template-columns: 60% 30%;
+  column-gap: 0.5rem;
+}
+
+.cars__car-road {
+  position: relative;
+  width: 95%;
+}
+
+.cars__car-icon {
+  position: absolute;
+  font-size: 3rem;
+  top: 50%;
+  left: 0%;
+  color: transparent;
+  animation: move-car 5s linear;
+  animation-fill-mode: forwards;
+  background-color: red;
+  -webkit-mask: url(/src/assets/car-side-solid.svg) no-repeat center;
+  mask: url(/src/assets/car-side-solid.svg) no-repeat center;
+  z-index: 99;
+}
+
+@keyframes move-car {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: 95%;
+  }
+}
