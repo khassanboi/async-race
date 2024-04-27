@@ -1,5 +1,5 @@
-import React from "react";
-import "./ControlContainerStyles.css";
+import React from 'react';
+import './ControlContainerStyles.css';
 
 interface ControlContainerProps {
   children: React.ReactNode;

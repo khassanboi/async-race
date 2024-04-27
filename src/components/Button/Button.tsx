@@ -1,4 +1,4 @@
-import "./ButtonStyles.css";
+import './ButtonStyles.css';
 
 interface ButtonProps {
   children: string;
@@ -6,5 +6,5 @@ interface ButtonProps {
 }
 
 export const Button = (props: ButtonProps) => {
-  return <button className={"btn " + props.className}>{props.children}</button>;
+  return <button className={'btn ' + props.className}>{props.children}</button>;
 };

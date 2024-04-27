@@ -1,8 +1,8 @@
-import React from "react";
-import "./HeaderStyles.css";
-import { Button } from "../Button/Button";
+import React from 'react';
+import './HeaderStyles.css';
+import { Button } from '../Button/Button';
 
-export const Header = () => {
+export function Header() {
   return (
     <header className="header">
       <span className="header__logo">ASYNC RACE</span>
@@ -12,4 +12,4 @@ export const Header = () => {
       </nav>
     </header>
   );
-};
+}

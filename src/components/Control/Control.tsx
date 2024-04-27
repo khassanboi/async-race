@@ -1,7 +1,7 @@
-import "./ControlStyles.css";
-import { ControlContainer } from "./ControlContainer/ControlContainer";
-import { ControlForm } from "./ControlForm/ControlForm";
-import { Button } from "../Button/Button";
+import './ControlStyles.css';
+import { ControlContainer } from './ControlContainer/ControlContainer';
+import { ControlForm } from './ControlForm/ControlForm';
+import { Button } from '../Button/Button';
 
 export const Control = () => {
   return (

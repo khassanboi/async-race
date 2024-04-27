@@ -1,28 +1,28 @@
-import * as React from "react";
-import "./CarListStyles.css";
+import * as React from 'react';
+import './CarListStyles.css';
 import {
   DataGrid,
   GridRowsProp,
   GridColDef,
   GridRenderCellParams,
-} from "@mui/x-data-grid";
-import { Button } from "../Button/Button";
+} from '@mui/x-data-grid';
+import { Button } from '../Button/Button';
 
 const rows: GridRowsProp = [
-  { id: 1, carInfo: "Tesla Model X", raceRoad: "" },
-  { id: 2, carInfo: "BMW X7", raceRoad: "" },
-  { id: 3, carInfo: "Mercedes 300", raceRoad: "" },
-  { id: 4, carInfo: "Tesla Model X", raceRoad: "" },
-  { id: 5, carInfo: "BMW X7", raceRoad: "" },
-  { id: 6, carInfo: "Mercedes 300", raceRoad: "" },
-  { id: 7, carInfo: "Tesla Model X", raceRoad: "" },
-  { id: 8, carInfo: "BMW X7", raceRoad: "" },
-  { id: 9, carInfo: "Mercedes 300", raceRoad: "" },
+  { id: 1, carInfo: 'Tesla Model X', raceRoad: '' },
+  { id: 2, carInfo: 'BMW X7', raceRoad: '' },
+  { id: 3, carInfo: 'Mercedes 300', raceRoad: '' },
+  { id: 4, carInfo: 'Tesla Model X', raceRoad: '' },
+  { id: 5, carInfo: 'BMW X7', raceRoad: '' },
+  { id: 6, carInfo: 'Mercedes 300', raceRoad: '' },
+  { id: 7, carInfo: 'Tesla Model X', raceRoad: '' },
+  { id: 8, carInfo: 'BMW X7', raceRoad: '' },
+  { id: 9, carInfo: 'Mercedes 300', raceRoad: '' },
 ];
 
 const columns: GridColDef[] = [
   {
-    field: "carInfo",
+    field: 'carInfo',
     flex: 1,
     minWidth: 200,
     renderCell: (params: GridRenderCellParams) => (
@@ -38,7 +38,7 @@ const columns: GridColDef[] = [
     ),
   },
   {
-    field: "raceRoad",
+    field: 'raceRoad',
     flex: 4,
     renderCell: (params: GridRenderCellParams) => (
       <div className="cars__car-road">
@@ -50,7 +50,7 @@ const columns: GridColDef[] = [
 
 export const CarList = () => {
   return (
-    <main style={{ width: "100%" }} className="cars">
+    <main style={{ width: '100%' }} className="cars">
       <DataGrid
         className="cars__list"
         rows={rows}
@@ -64,8 +64,8 @@ export const CarList = () => {
         }}
         sx={{
           border: 0,
-          color: "#fff",
-          "& .MuiDataGrid-cell": {
+          color: '#fff',
+          '& .MuiDataGrid-cell': {
             border: 0,
             borderRight: 0.1,
           },

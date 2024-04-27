@@ -1,7 +1,7 @@
-import React from "react";
-import "./ControlFormStyles.css";
-import { ControlContainer } from "../ControlContainer/ControlContainer";
-import { Button } from "../../Button/Button";
+import React from 'react';
+import './ControlFormStyles.css';
+import { ControlContainer } from '../ControlContainer/ControlContainer';
+import { Button } from '../../Button/Button';
 
 interface ControlFormProps {
   placeholder: string;
