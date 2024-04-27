@@ -7,8 +7,8 @@ export const Header = () => {
     <header className="header">
       <span className="header__logo">ASYNC RACE</span>
       <nav className="header__ui">
-        <Button className="btn--red">Garage</Button>
-        <Button className="btn--blue">Winners</Button>
+        <Button className="btn--purple">Garage</Button>
+        <Button className="btn--purple">Winners</Button>
       </nav>
     </header>
   );

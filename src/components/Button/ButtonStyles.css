@@ -5,13 +5,13 @@
   border: none;
   border-radius: 0.5rem;
   transition: all 0.2s;
-  font-size: 1rem;
+  font-size: 0.8rem;
   cursor: pointer;
 }
 
 .btn--small {
   padding: 0.5rem;
-  font-size: 0.6rem;
+  font-size: 0.5rem;
   border-radius: 0.2rem;
   width: 100%;
   align-self: center;
@@ -25,19 +25,23 @@
   background-color: #990000;
 }
 
-.btn.btn--green {
+.btn.btn--green,
+.btn.btn--active {
   background-color: #009900;
+}
+
+.btn.btn--active {
+  pointer-events: none;
 }
 
 .btn.btn--blue {
   background-color: #000099;
 }
 
-.btn.btn--yellow.btn--active {
-  background-color: #ee8800;
-  pointer-events: none;
+.btn.btn--purple {
+  background-color: #990099;
 }
 
-.btn.btn--yellow:not(.btn--active) {
+.btn.btn--inactive {
   background-color: #999999;
 }

@@ -29,9 +29,9 @@ const columns: GridColDef[] = [
       <div className="cars__car">
         <div className="cars__car-control">
           <Button className="btn--blue btn--small">Select</Button>
-          <Button className="btn--yellow btn--small btn--active">A</Button>
+          <Button className="btn--active btn--small">A</Button>
           <Button className="btn--red btn--small">Remove</Button>
-          <Button className="btn--yellow btn--small">B</Button>
+          <Button className="btn--inactive btn--small">B</Button>
         </div>
         <h3 className="cars__car-name">{params.value}</h3>
       </div>

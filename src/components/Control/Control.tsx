@@ -6,6 +6,11 @@ import { Button } from "../Button/Button";
 export const Control = () => {
   return (
     <section className="control">
+      <ControlContainer>
+        <Button className="btn--blue">Race</Button>
+        <Button className="btn--blue">Reset</Button>
+        <Button className="btn--blue">Generate Cars</Button>
+      </ControlContainer>
       <ControlForm
         placeholder="New Car Name"
         buttonText="Create"
@@ -14,13 +19,8 @@ export const Control = () => {
       <ControlForm
         placeholder="Existing Car Name"
         buttonText="Update"
-        buttonClassName="btn--yellow"
+        buttonClassName="btn--green"
       />
-      <ControlContainer>
-        <Button className="btn--green">Race</Button>
-        <Button className="btn--red">Reset</Button>
-        <Button className="btn--blue">Generate Cars</Button>
-      </ControlContainer>
     </section>
   );
 };
