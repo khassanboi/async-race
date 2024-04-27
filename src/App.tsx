@@ -1,13 +1,14 @@
 import "./App.css";
 import { Header } from "./components/Header/Header";
 import { Control } from "./components/Control/Control";
-import "./BaseStyles.css";
+import { CarList } from "./components/Cars/CarList";
 
 function App() {
   return (
     <div className="App">
       <Header />
       <Control />
+      <CarList />
     </div>
   );
 }
