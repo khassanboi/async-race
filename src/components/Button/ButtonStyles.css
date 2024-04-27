@@ -1,0 +1,41 @@
+.btn {
+  padding: 0.5rem 1rem;
+  color: #fff;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn--small {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  border-radius: 0.2rem;
+  width: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn.btn--red {
+  background-color: #990000;
+}
+
+.btn.btn--green {
+  background-color: #009900;
+}
+
+.btn.btn--blue {
+  background-color: #000099;
+}
+
+.btn.btn--yellow {
+  background-color: #ee8800;
+}
+
+.btn.btn--yellow.btn--inactive {
+  background-color: #999999;
+}
