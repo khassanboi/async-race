@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
+import * as api from '../../api/index';
 import './WinnerListStyles.css';
 import {
   DataGrid,
@@ -6,30 +7,6 @@ import {
   GridColDef,
   GridRenderCellParams,
 } from '@mui/x-data-grid';
-
-const rows: GridRowsProp = [
-  {
-    id: 1,
-    carIcon: '#00ff00',
-    carName: 'Tesla Model X',
-    carWins: 15,
-    carBestTime: 2.77,
-  },
-  {
-    id: 2,
-    carIcon: '#0000ff',
-    carName: 'BMW X7',
-    carWins: 5,
-    carBestTime: 3.77,
-  },
-  {
-    id: 3,
-    carIcon: '#ff0000',
-    carName: 'Audi Q7',
-    carWins: 10,
-    carBestTime: 3.77,
-  },
-];
 
 const columns: GridColDef[] = [
   {
@@ -64,6 +41,22 @@ const columns: GridColDef[] = [
 ];
 
 export const WinnerList = () => {
+  const [winners, setWinners] = useState([]);
+
+  useEffect(() => {
+    api.getWinners().then((res) => {
+      setWinners(res.data);
+    });
+  }, []);
+
+  const rows: GridRowsProp = winners.map((winner: any) => ({
+    id: winner.id,
+    carIcon: '',
+    carName: 'Car Name',
+    carBestTime: winner.time,
+    carWins: winner.wins,
+  }));
+
   return (
     <main style={{ width: '100%' }} className="winners">
       <DataGrid

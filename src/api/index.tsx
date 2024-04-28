@@ -24,3 +24,5 @@ export const updateCar = (id: number, name: string, color: string) => {
     color,
   });
 };
+
+export const getWinners = () => axios.get(winnersUrl);
