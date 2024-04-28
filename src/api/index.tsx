@@ -1,4 +1,5 @@
 import axios from 'axios';
+import exp from 'constants';
 
 const garageUrl = 'http://localhost:3000/garage';
 const winnersUrl = 'http://localhost:3000/winners';
@@ -27,3 +28,8 @@ export const createWinner = (id: number, wins: number, time: number) =>
     time,
   });
 export const deleteWinner = (id: number) => axios.delete(`${winnersUrl}/${id}`);
+export const updateWinner = (id: number, wins: number, time: number) =>
+  axios.put(`${winnersUrl}/${id}`, {
+    wins,
+    time,
+  });
