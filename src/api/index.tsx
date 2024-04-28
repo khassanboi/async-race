@@ -26,3 +26,4 @@ export const createWinner = (id: number, wins: number, time: number) =>
     wins,
     time,
   });
+export const deleteWinner = (id: number) => axios.delete(`${winnersUrl}/${id}`);
