@@ -20,3 +20,9 @@ export const updateCar = (id: number, name: string, color: string) => {
 
 export const getWinners = () => axios.get(winnersUrl);
 export const getWinner = (id: number) => axios.get(`${winnersUrl}/${id}`);
+export const createWinner = (id: number, wins: number, time: number) =>
+  axios.post(winnersUrl, {
+    id,
+    wins,
+    time,
+  });
