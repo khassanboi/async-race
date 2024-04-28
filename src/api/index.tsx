@@ -10,3 +10,8 @@ export const getCar = (id: number) =>
       id,
     },
   });
+export const createCar = (name: string, color: string) =>
+  axios.post(garageUrl, {
+    name,
+    color,
+  });
