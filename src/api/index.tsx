@@ -15,3 +15,9 @@ export const createCar = (name: string, color: string) =>
     name,
     color,
   });
+export const deleteCar = (id: number) =>
+  axios.delete(garageUrl, {
+    params: {
+      id,
+    },
+  });
