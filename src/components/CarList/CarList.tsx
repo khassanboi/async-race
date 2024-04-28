@@ -1,4 +1,3 @@
-import * as React from 'react';
 import './CarListStyles.css';
 import {
   DataGrid,
@@ -8,21 +7,17 @@ import {
 } from '@mui/x-data-grid';
 import { Button } from '../Button/Button';
 
-const rows: GridRowsProp = [
-  { id: 1, carInfo: 'Tesla Model X', raceRoad: '' },
-  { id: 2, carInfo: 'BMW X7', raceRoad: '' },
-  { id: 3, carInfo: 'Mercedes 300', raceRoad: '' },
-  { id: 4, carInfo: 'Tesla Model X', raceRoad: '' },
-  { id: 5, carInfo: 'BMW X7', raceRoad: '' },
-  { id: 6, carInfo: 'Mercedes 300', raceRoad: '' },
-  { id: 7, carInfo: 'Tesla Model X', raceRoad: '' },
-  { id: 8, carInfo: 'BMW X7', raceRoad: '' },
-  { id: 9, carInfo: 'Mercedes 300', raceRoad: '' },
-];
+interface CarListProps {
+  cars: {
+    id: number;
+    name: string;
+    color: string;
+  }[];
+}
 
 const columns: GridColDef[] = [
   {
-    field: 'carInfo',
+    field: 'carName',
     flex: 1,
     minWidth: 200,
     renderCell: (params: GridRenderCellParams) => (
@@ -42,13 +37,25 @@ const columns: GridColDef[] = [
     flex: 4,
     renderCell: (params: GridRenderCellParams) => (
       <div className="cars__car-road">
-        <div className="cars__car-icon">Car</div>
+        <div
+          className="cars__car-icon"
+          style={{ backgroundColor: params.row.carColor }}
+        >
+          Car
+        </div>
       </div>
     ),
   },
 ];
 
-export const CarList = () => {
+export const CarList = (props: CarListProps) => {
+  const rows: GridRowsProp = props.cars.map((car: any) => ({
+    id: car.id,
+    carName: car.name,
+    carColor: car.color,
+    raceRoad: '',
+  }));
+
   return (
     <main style={{ width: '100%' }} className="cars">
       <DataGrid
