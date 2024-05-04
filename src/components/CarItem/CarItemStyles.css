@@ -31,6 +31,14 @@
   width: 80%;
 }
 
+.pagination {
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+
 .cars__car-icon {
   position: absolute;
   font-size: 3rem;
