@@ -9,6 +9,7 @@ import { getCars } from '../../redux/carsSlice';
 export const CarList = () => {
   const cars = useSelector((state: RootState) => state.cars);
   const dispatch = useDispatch();
+  const [selectedCar, setSelectedCar] = useState<Car>();
 
   useEffect(() => {
     dispatch(getCars() as any);
@@ -16,10 +17,20 @@ export const CarList = () => {
 
   return (
     <div>
-      <Control />
-      {cars.map((car: Car) => (
-        <CarItem key={car.id} carName={car.name} carColor={car.color} />
-      ))}
+      <Control selectedCar={selectedCar} />
+      {cars ? (
+        cars.map((car: Car) => (
+          <CarItem
+            key={car.id}
+            carName={car.name}
+            carColor={car.color}
+            carId={car.id ? car.id : 0}
+            setSelectedCar={setSelectedCar}
+          />
+        ))
+      ) : (
+        <p>No cars available</p>
+      )}
     </div>
   );
 };
