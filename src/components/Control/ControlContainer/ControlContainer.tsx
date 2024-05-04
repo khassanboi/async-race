@@ -3,8 +3,13 @@ import './ControlContainerStyles.css';
 
 interface ControlContainerProps {
   children: React.ReactNode;
+  onSubmit?: (event: React.FormEvent) => void;
 }
 
 export const ControlContainer = (props: ControlContainerProps) => {
-  return <div className="control__container">{props.children}</div>;
+  return (
+    <form className="control__container" onSubmit={props.onSubmit}>
+      {props.children}
+    </form>
+  );
 };

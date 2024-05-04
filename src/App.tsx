@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Header } from './components/Header/Header';
-import { Cars } from './components/Cars/Cars';
+import { CarList } from './components/CarList/CarList';
 import { WinnerList } from './components/WinnerList/WinnerList';
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
       <div className="App">
         <Header />
         <Routes>
-          <Route path="/" element={<Cars />} />
+          <Route path="/" element={<CarList />} />
           <Route path="/winners" element={<WinnerList />} />
         </Routes>
       </div>

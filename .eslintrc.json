@@ -1,7 +1,0 @@
-{
-  "extends": ["airbnb", "airbnb/hooks"],
-  "rules": {
-    "max-lines-per-function": ["error", 40],
-    "no-magic-numbers": ["error", { "ignore": [-1, 0, 1, 2] }]
-  }
-}
