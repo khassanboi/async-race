@@ -10,7 +10,6 @@
   height: 100%;
   display: flex;
   padding: 0.5rem 0;
-  width: 10%;
 }
 
 .cars__car-name {
@@ -34,7 +33,7 @@
 
 .cars__car-road {
   position: relative;
-  width: 90%;
+  width: 100%;
 }
 
 .pagination {
@@ -49,7 +48,7 @@
   position: absolute;
   font-size: 3rem;
   top: 50%;
-  right: 90%;
+  left: 2%;
   transform: translateY(-50%);
   color: transparent;
   background-color: red;
@@ -73,9 +72,9 @@
 
 @keyframes move-car {
   0% {
-    right: 90%;
+    left: 2%;
   }
   100% {
-    right: 0%;
+    left: 90%;
   }
 }

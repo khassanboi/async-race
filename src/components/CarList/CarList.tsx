@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Control } from '../Control/Control';
@@ -20,12 +20,17 @@ export const CarList = () => {
 
   const indexOfLastCar = currentPage * carsPerPage;
   const indexOfFirstCar = indexOfLastCar - carsPerPage;
-
   const currentCars = cars.slice(indexOfFirstCar, indexOfLastCar);
+
+  const startRace = () => {
+    currentCars.forEach((car: Car) => {
+      document.getElementById(`car-start-engine-${car.id}`)?.click();
+    });
+  };
 
   return (
     <div>
-      <Control selectedCar={selectedCar} />
+      <Control selectedCar={selectedCar} startRace={startRace} />
       {cars ? (
         currentCars.map((car: Car) => (
           <CarItem

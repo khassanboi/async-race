@@ -45,6 +45,8 @@ export const CarItem = (props: CarItemProps) => {
   };
 
   const handleStartEngine = async (id: number) => {
+    setDriveMode('drive');
+
     try {
       const response = await startEngine(id);
       const time = response.data.distance / (response.data.velocity * 1000);
@@ -55,7 +57,7 @@ export const CarItem = (props: CarItemProps) => {
           carIcon.style.animation = `move-car ${time}s ease-in-out`;
           carIcon.style.animationFillMode = 'forwards';
           driveCar(id);
-        } else if (driveMode === 'paused') {
+        } else if (driveMode === 'paused' || driveMode !== 'broken') {
           carIcon.style.animationPlayState = 'running';
           setDriveMode('drive');
         }
@@ -105,7 +107,7 @@ export const CarItem = (props: CarItemProps) => {
                 : ''
             }`}
             onClick={() => handleStartEngine(props.carId)}
-            id={`car-star-engine-${props.carId}`}
+            id={`car-start-engine-${props.carId}`}
           >
             A
           </Button>

@@ -5,13 +5,16 @@ import { Button } from '../Button/Button';
 import { Car } from '../../types';
 type ControlProps = {
   selectedCar?: Car;
+  startRace: () => void;
 };
 
 export const Control = (props: ControlProps) => {
   return (
     <section className="control">
       <ControlContainer>
-        <Button className="btn--blue">Race</Button>
+        <Button className="btn--blue" onClick={props.startRace} type="button">
+          Race
+        </Button>
         <Button className="btn--blue">Reset</Button>
         <Button className="btn--blue">Generate Cars</Button>
       </ControlContainer>
