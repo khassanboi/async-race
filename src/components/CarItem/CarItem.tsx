@@ -1,5 +1,5 @@
 import './CarItemStyles.css';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '../Button/Button';
 import { useDispatch } from 'react-redux';
 import { deleteCar } from '../../redux/carsSlice';
@@ -14,78 +14,71 @@ type CarItemProps = {
   setSelectedCar: (car: Car) => void;
 };
 
-type DriveModeState = 'stopped' | 'drive' | 'completed' | 'paused';
+type DriveModeState = 'initial' | 'drive' | 'paused' | 'broken' | 'completed';
 
 export const CarItem = (props: CarItemProps) => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-  const [driveMode, setDriveMode] = useState<DriveModeState>('stopped');
+  const [driveMode, setDriveMode] = useState<DriveModeState>('initial');
+  const carIconRef = useRef<HTMLDivElement | null>(null);
 
-  const handleDelete = () => {
-    dispatch(deleteCar(props.carId));
-  };
-
-  const stopAnimation = () => {
-    const carIcon = document.getElementById(`car-icon-${props.carId}`);
-
+  useEffect(() => {
+    const carIcon = carIconRef.current;
     if (carIcon) {
-      carIcon.style.animationPlayState = 'paused';
+      carIcon.onanimationend = () => {
+        console.log('Animation ended');
+        setDriveMode('completed');
+      };
     }
-
-    if (driveMode === 'drive') {
-      setDriveMode('stopped');
-    }
-  };
+  }, []);
 
   const driveCar = async (id: number) => {
-    const carRoad = document.getElementById(`car-road-${props.carId}`);
+    setDriveMode('drive');
 
     try {
-      await drive(id).then(() => {
-        if (carRoad) {
-          carRoad.style.display = 'none';
-        }
-      });
+      await drive(id);
     } catch (error) {
-      console.error('Engine has broken!', error);
-      stopAnimation();
-      if (carRoad) {
-        carRoad.style.display = 'inline-block';
+      if (driveMode !== 'paused') {
+        handleStopEngine(id, 'broken');
       }
-      setDriveMode('completed');
+      console.error('Engine has broken!', error);
     }
   };
 
   const handleStartEngine = async (id: number) => {
     try {
-      await startEngine(id).then((response) => {
-        const time = response.data.distance / (response.data.velocity * 1000);
-        const carIcon = document.getElementById(`car-icon-${props.carId}`);
+      const response = await startEngine(id);
+      const time = response.data.distance / (response.data.velocity * 1000);
+      const carIcon = carIconRef.current;
 
-        if (carIcon) {
-          carIcon.style.animation = `move-car ${time}s linear`;
+      if (carIcon) {
+        if (driveMode === 'initial') {
+          carIcon.style.animation = `move-car ${time}s ease-in-out`;
           carIcon.style.animationFillMode = 'forwards';
-
-          carIcon.onanimationend = () => {
-            console.log('Animation ended');
-            setDriveMode('completed');
-          };
+          driveCar(id);
+        } else if (driveMode === 'paused') {
+          carIcon.style.animationPlayState = 'running';
+          setDriveMode('drive');
         }
-
-        driveCar(id);
-        setDriveMode('drive');
-      });
+      }
     } catch (error) {
-      console.error('Failed to start engine!', error);
+      console.error('Failed to start!', error);
+      setDriveMode('broken');
     }
   };
 
-  const handleStopEngine = async (id: number) => {
+  const handleStopEngine = async (id: number, reason: 'paused' | 'broken') => {
+    setDriveMode(reason);
+    const carIcon = carIconRef.current;
+
+    if (carIcon) {
+      carIcon.style.animationPlayState = 'paused';
+    }
+
     try {
-      await stopEngine(id).then((response) => {
-        stopAnimation();
-      });
+      await stopEngine(id);
     } catch (error) {
-      console.error('Failed to start engine', error);
+      console.error('Failed to stop!', error);
+      setDriveMode('broken');
     }
   };
 
@@ -93,14 +86,23 @@ export const CarItem = (props: CarItemProps) => {
     <div className="cars">
       <div className="cars__car">
         <div className="cars__car-control">
-          <Button className="btn--purple btn--small" onClick={handleDelete}>
+          <Button
+            className="btn--purple btn--small"
+            onClick={() => {
+              dispatch(deleteCar(props.carId));
+            }}
+          >
             Remove
           </Button>
           <Button
             className={`btn--small btn--green ${
-              driveMode === 'stopped' ? 'btn--abled' : ''
+              driveMode === 'initial' || driveMode === 'paused'
+                ? 'btn--abled'
+                : ''
             } ${driveMode === 'drive' ? 'btn--active' : ''} ${
-              driveMode === 'completed' ? 'btn--disabled' : ''
+              driveMode === 'completed' || driveMode === 'broken'
+                ? 'btn--disabled'
+                : ''
             }`}
             onClick={() => handleStartEngine(props.carId)}
             id={`car-star-engine-${props.carId}`}
@@ -121,11 +123,15 @@ export const CarItem = (props: CarItemProps) => {
           </Button>
           <Button
             className={`btn--small btn--red ${
-              driveMode === 'stopped' ? 'btn--active' : ''
+              driveMode === 'initial' || driveMode === 'paused'
+                ? 'btn--active'
+                : ''
             } ${driveMode === 'drive' ? 'btn--abled' : ''} ${
-              driveMode === 'completed' ? 'btn--disabled' : ''
+              driveMode === 'completed' || driveMode === 'broken'
+                ? 'btn--disabled'
+                : ''
             }`}
-            onClick={() => handleStopEngine(props.carId)}
+            onClick={() => handleStopEngine(props.carId, 'paused')}
             id={`car-stop-engine-${props.carId}`}
           >
             B
@@ -137,13 +143,21 @@ export const CarItem = (props: CarItemProps) => {
           className="cars__car-icon"
           style={{ backgroundColor: props.carColor }}
           id={`car-icon-${props.carId}`}
+          ref={carIconRef}
         >
           Car
         </div>
         <h3 className="cars__car-name">{props.carName}</h3>
-        <span className="cars__car-road-message" id={`car-road-${props.carId}`}>
-          Engine Broken
-        </span>
+        {driveMode == 'broken' ? (
+          <span
+            className="cars__car-road-message"
+            id={`car-road-${props.carId}`}
+          >
+            Engine Broken !
+          </span>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );

@@ -56,6 +56,8 @@
   -webkit-mask: url(/src/assets/car-side-solid.svg) no-repeat center;
   mask: url(/src/assets/car-side-solid.svg) no-repeat center;
   z-index: 99;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
 }
 
 .cars__car-road-message {
@@ -63,7 +65,10 @@
   font-size: 0.8rem;
   position: absolute;
   right: 1rem;
-  display: none;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  opacity: 60%;
+  transform: translateY(-50%);
 }
 
 @keyframes move-car {
