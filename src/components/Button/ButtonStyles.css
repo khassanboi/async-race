@@ -7,10 +7,14 @@
   transition: all 0.2s;
   font-size: 0.8rem;
   cursor: pointer;
+  border: 1px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn--small {
-  padding: 0.5rem;
+  padding: 0.5rem 0.7rem;
   font-size: 0.5rem;
   border-radius: 0.2rem;
   width: 100%;
@@ -23,30 +27,36 @@
 
 .btn.btn--red {
   background-color: #990000;
+  border-color: #990000;
 }
 
 .btn.btn--green {
   background-color: #009900;
+  border-color: #009900;
 }
 
 .btn.btn--blue {
   background-color: #000099;
+  border-color: #000099;
 }
 
 .btn.btn--purple {
   background-color: #990099;
-}
-
-.btn.btn--engine {
-  background-color: #ff9900;
+  border-color: #990099;
 }
 
 .btn.btn--active {
   pointer-events: none;
-  background-color: #009900;
+}
+
+.btn.btn--abled {
+  background-color: #333333;
+  border-color: #333333;
 }
 
 .btn.btn--disabled {
   pointer-events: none;
-  background-color: #222222;
+  background-color: transparent;
+  border-color: #333333;
+  color: #333333;
 }

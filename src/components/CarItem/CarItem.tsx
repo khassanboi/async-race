@@ -24,20 +24,6 @@ export const CarItem = (props: CarItemProps) => {
     dispatch(deleteCar(props.carId));
   };
 
-  const startAnimation = (time: number) => {
-    const carIcon = document.getElementById(`car-icon-${props.carId}`);
-
-    if (carIcon) {
-      carIcon.style.animation = `move-car ${time}s linear`;
-      carIcon.style.animationFillMode = 'forwards';
-
-      carIcon.onanimationend = () => {
-        console.log('Animation ended');
-        setDriveMode('completed');
-      };
-    }
-  };
-
   const stopAnimation = () => {
     const carIcon = document.getElementById(`car-icon-${props.carId}`);
 
@@ -73,7 +59,18 @@ export const CarItem = (props: CarItemProps) => {
     try {
       await startEngine(id).then((response) => {
         const time = response.data.distance / (response.data.velocity * 1000);
-        startAnimation(time);
+        const carIcon = document.getElementById(`car-icon-${props.carId}`);
+
+        if (carIcon) {
+          carIcon.style.animation = `move-car ${time}s linear`;
+          carIcon.style.animationFillMode = 'forwards';
+
+          carIcon.onanimationend = () => {
+            console.log('Animation ended');
+            setDriveMode('completed');
+          };
+        }
+
         driveCar(id);
         setDriveMode('drive');
       });
@@ -96,6 +93,20 @@ export const CarItem = (props: CarItemProps) => {
     <div className="cars">
       <div className="cars__car">
         <div className="cars__car-control">
+          <Button className="btn--purple btn--small" onClick={handleDelete}>
+            Remove
+          </Button>
+          <Button
+            className={`btn--small btn--green ${
+              driveMode === 'stopped' ? 'btn--abled' : ''
+            } ${driveMode === 'drive' ? 'btn--active' : ''} ${
+              driveMode === 'completed' ? 'btn--disabled' : ''
+            }`}
+            onClick={() => handleStartEngine(props.carId)}
+            id={`car-star-engine-${props.carId}`}
+          >
+            A
+          </Button>
           <Button
             className="btn--blue btn--small"
             onClick={() =>
@@ -109,23 +120,9 @@ export const CarItem = (props: CarItemProps) => {
             Select
           </Button>
           <Button
-            className={`btn--small ${
-              driveMode === 'stopped' ? 'btn--engine' : ''
-            } ${driveMode === 'drive' ? 'btn--active' : ''} ${
-              driveMode === 'completed' ? 'btn--disabled' : ''
-            }`}
-            onClick={() => handleStartEngine(props.carId)}
-            id={`car-star-engine-${props.carId}`}
-          >
-            A
-          </Button>
-          <Button className="btn--red btn--small" onClick={handleDelete}>
-            Remove
-          </Button>
-          <Button
-            className={`btn--small ${
+            className={`btn--small btn--red ${
               driveMode === 'stopped' ? 'btn--active' : ''
-            } ${driveMode === 'drive' ? 'btn--engine' : ''} ${
+            } ${driveMode === 'drive' ? 'btn--abled' : ''} ${
               driveMode === 'completed' ? 'btn--disabled' : ''
             }`}
             onClick={() => handleStopEngine(props.carId)}
@@ -134,7 +131,6 @@ export const CarItem = (props: CarItemProps) => {
             B
           </Button>
         </div>
-        <h3 className="cars__car-name">{props.carName}</h3>
       </div>
       <div className="cars__car-road">
         <div
@@ -144,6 +140,7 @@ export const CarItem = (props: CarItemProps) => {
         >
           Car
         </div>
+        <h3 className="cars__car-name">{props.carName}</h3>
         <span className="cars__car-road-message" id={`car-road-${props.carId}`}>
           Engine Broken
         </span>
