@@ -21,6 +21,7 @@ export const CarList = () => {
   const indexOfLastCar = currentPage * carsPerPage;
   const indexOfFirstCar = indexOfLastCar - carsPerPage;
   const currentCars = cars.slice(indexOfFirstCar, indexOfLastCar);
+  const totalPages = Math.ceil(cars.length / carsPerPage);
 
   const startRace = () => {
     currentCars.forEach((car: Car) => {
@@ -52,7 +53,9 @@ export const CarList = () => {
         >
           Previous
         </Button>
-        <h3>Page {currentPage}</h3>
+        <h3>
+          Page {currentPage} of {totalPages}
+        </h3>
         <Button
           onClick={() => setCurrentPage(currentPage + 1)}
           className="btn btn--blue"
