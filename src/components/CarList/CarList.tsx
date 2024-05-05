@@ -43,6 +43,7 @@ export const CarList = () => {
         <Button
           onClick={() => setCurrentPage(currentPage - 1)}
           className="btn btn--blue"
+          disabled={currentPage === 1}
         >
           Previous
         </Button>
@@ -50,6 +51,7 @@ export const CarList = () => {
         <Button
           onClick={() => setCurrentPage(currentPage + 1)}
           className="btn btn--blue"
+          disabled={currentPage === Math.ceil(cars.length / carsPerPage)}
         >
           Next
         </Button>

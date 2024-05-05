@@ -8,8 +8,6 @@ type ControlProps = {
 };
 
 export const Control = (props: ControlProps) => {
-  console.log(props.selectedCar);
-
   return (
     <section className="control">
       <ControlContainer>

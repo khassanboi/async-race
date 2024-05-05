@@ -25,13 +25,8 @@
   background-color: #990000;
 }
 
-.btn.btn--green,
-.btn.btn--active {
+.btn.btn--green {
   background-color: #009900;
-}
-
-.btn.btn--active {
-  pointer-events: none;
 }
 
 .btn.btn--blue {
@@ -42,6 +37,16 @@
   background-color: #990099;
 }
 
-.btn.btn--inactive {
-  background-color: #999999;
+.btn.btn--engine {
+  background-color: #ff9900;
+}
+
+.btn.btn--active {
+  pointer-events: none;
+  background-color: #009900;
+}
+
+.btn.btn--disabled {
+  pointer-events: none;
+  background-color: #222222;
 }

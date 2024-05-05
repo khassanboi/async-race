@@ -3,6 +3,7 @@ import { Car } from '../types';
 
 const garageUrl = 'http://localhost:3000/garage';
 const winnersUrl = 'http://localhost:3000/winners';
+const engineUrl = 'http://localhost:3000/engine';
 
 export const getCars = () => axios.get(garageUrl);
 export const getCar = (id: number) => axios.get(`${garageUrl}/${id}`);
@@ -29,3 +30,12 @@ export const updateWinner = (id: number, wins: number, time: number) =>
     wins,
     time,
   });
+
+export const startEngine = (id: number) =>
+  axios.patch(engineUrl, null, { params: { id: id, status: 'started' } });
+
+export const stopEngine = (id: number) =>
+  axios.patch(engineUrl, null, { params: { id: id, status: 'stopped' } });
+
+export const drive = (id: number) =>
+  axios.patch(engineUrl, null, { params: { id: id, status: 'drive' } });

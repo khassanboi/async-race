@@ -59,7 +59,7 @@ export const ControlForm = (props: ControlFormProps) => {
       <input
         type="color"
         className="control__input"
-        value={car.color}
+        value={car.color ? car.color : '#000000'}
         onChange={(event) => setCar({ ...car, color: event.target.value })}
       />
       <Button className={props.buttonClassName} type="submit">
