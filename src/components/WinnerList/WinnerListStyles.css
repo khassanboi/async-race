@@ -1,0 +1,32 @@
+.winners {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.winners * {
+  width: 100%;
+}
+
+.winners__header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0.5px solid #fff;
+}
+
+.winners__footer {
+  border-top: 0.5px solid #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.winners__pagination {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  gap: 1rem;
+}

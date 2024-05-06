@@ -4,7 +4,7 @@ import { Button } from '../Button/Button';
 import { useDispatch } from 'react-redux';
 import { deleteCar } from '../../redux/carsSlice';
 import { ThunkDispatch } from '@reduxjs/toolkit';
-import { Car } from '../../types';
+import { Car, Winner } from '../../types';
 import { startEngine, stopEngine, drive } from '../../api';
 
 type CarItemProps = {
@@ -12,6 +12,8 @@ type CarItemProps = {
   carColor: string;
   carId: number;
   setSelectedCar: (car: Car) => void;
+  setContestants: (contestants: any) => void;
+  setCarAmount: (carAmount: any) => void;
 };
 
 type DriveModeState = 'initial' | 'drive' | 'paused' | 'broken' | 'completed';
@@ -20,13 +22,16 @@ export const CarItem = (props: CarItemProps) => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const [driveMode, setDriveMode] = useState<DriveModeState>('initial');
   const carIconRef = useRef<HTMLDivElement | null>(null);
+  let raceStartTime = new Date();
+  let raceEndTime = new Date();
 
   useEffect(() => {
     const carIcon = carIconRef.current;
     if (carIcon) {
       carIcon.onanimationend = () => {
-        console.log('Animation ended');
         setDriveMode('completed');
+        raceEndTime = new Date();
+        props.setCarAmount((prevCarAmount: number) => prevCarAmount + 1);
       };
     }
   }, []);
@@ -36,6 +41,15 @@ export const CarItem = (props: CarItemProps) => {
 
     try {
       await drive(id);
+      if (raceEndTime && raceStartTime) {
+        props.setContestants((prevContestants: Winner[]) => [
+          ...prevContestants,
+          {
+            id,
+            time: (raceEndTime.getTime() - raceStartTime.getTime()) / 1000,
+          },
+        ]);
+      }
     } catch (error) {
       if (driveMode !== 'paused') {
         handleStopEngine(id, 'broken');
@@ -46,6 +60,7 @@ export const CarItem = (props: CarItemProps) => {
 
   const handleStartEngine = async (id: number) => {
     setDriveMode('drive');
+    raceStartTime = new Date();
 
     try {
       const response = await startEngine(id);

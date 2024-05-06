@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Car } from '../types';
+import { Car, Winner } from '../types';
 
 const garageUrl = 'http://localhost:3000/garage';
 const winnersUrl = 'http://localhost:3000/winners';
@@ -18,12 +18,8 @@ export const updateCar = (id: number, name: string, color: string) => {
 
 export const getWinners = () => axios.get(winnersUrl);
 export const getWinner = (id: number) => axios.get(`${winnersUrl}/${id}`);
-export const createWinner = (id: number, wins: number, time: number) =>
-  axios.post(winnersUrl, {
-    id,
-    wins,
-    time,
-  });
+export const createWinner = (newWinner: Winner) =>
+  axios.post(winnersUrl, newWinner);
 export const deleteWinner = (id: number) => axios.delete(`${winnersUrl}/${id}`);
 export const updateWinner = (id: number, wins: number, time: number) =>
   axios.put(`${winnersUrl}/${id}`, {

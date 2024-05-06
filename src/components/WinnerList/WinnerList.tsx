@@ -1,47 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import * as api from '../../api/index';
+import { WinnerItem } from '../WinnerItem/WinnerItem';
+import { Winner } from '../../types';
 import './WinnerListStyles.css';
-import {
-  DataGrid,
-  GridRowsProp,
-  GridColDef,
-  GridRenderCellParams,
-} from '@mui/x-data-grid';
-
-const columns: GridColDef[] = [
-  {
-    field: 'id',
-    headerName: '№',
-    flex: 1,
-  },
-  {
-    field: 'carIcon',
-    headerName: 'Car',
-    flex: 1,
-
-    renderCell: (params: GridRenderCellParams) => (
-      <div className="winners__winner-icon">Car</div>
-    ),
-  },
-  {
-    field: 'carName',
-    headerName: 'Name',
-    flex: 1,
-  },
-  {
-    field: 'carWins',
-    headerName: 'Wins',
-    flex: 1,
-  },
-  {
-    field: 'carBestTime',
-    headerName: 'Best Time (Seconds)',
-    flex: 1,
-  },
-];
+import { Button } from '../Button/Button';
 
 export const WinnerList = () => {
   const [winners, setWinners] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const carsPerPage = 7;
 
   useEffect(() => {
     api.getWinners().then((res) => {
@@ -49,41 +16,56 @@ export const WinnerList = () => {
     });
   }, []);
 
-  const rows: GridRowsProp = winners.map((winner: any) => ({
-    id: winner.id,
-    carIcon: '',
-    carName: 'Car Name',
-    carBestTime: winner.time,
-    carWins: winner.wins,
-  }));
+  const indexOfLastCar = currentPage * carsPerPage;
+  const indexOfFirstCar = indexOfLastCar - carsPerPage;
+  const currentWinners = winners.slice(indexOfFirstCar, indexOfLastCar);
+  const totalPages = Math.ceil(winners.length / carsPerPage);
 
   return (
-    <main style={{ width: '100%' }} className="winners">
-      <DataGrid
-        className="winners__list"
-        rows={rows}
-        columns={columns}
-        rowHeight={50}
-        initialState={{
-          pagination: {
-            paginationModel: { pageSize: 7, page: 0 },
-          },
-        }}
-        sx={{
-          border: 0,
-          color: '#fff',
-          backgroundColor: 'transparent',
-          '& .MuiDataGrid-cell': {
-            border: 0,
-            borderRight: 0,
-            borderRadius: 0,
-          },
-          '& .MuiDataGrid-columnHeader': {
-            backgroundColor: '#000',
-            textTransform: 'uppercase',
-          },
-        }}
-      />
+    <main className="winners">
+      <div className="winners__header">
+        <div className="winners__header-title">Car Id</div>
+        <div className="winners__header-title">Car Icon</div>
+        <div className="winners__header-title">Car Name</div>
+        <div className="winners__header-title">Car Wins</div>
+        <div className="winners__header-title">Car Best Time</div>
+      </div>
+      {winners ? (
+        currentWinners.map((winner: Winner) => (
+          <WinnerItem
+            key={winner.id}
+            id={winner.id}
+            time={winner.time}
+            wins={winner.wins}
+          />
+        ))
+      ) : (
+        <p>No winners available</p>
+      )}
+      <div className="winners__footer">
+        <h3 className="winners__total-number">
+          {winners.length} winners in total
+        </h3>
+        <div className="winners__pagination">
+          <Button
+            className="btn btn--blue"
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          <h3>
+            Page {currentPage} of {totalPages}
+          </h3>
+          <Button
+            className="btn btn--blue"
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={currentPage === Math.ceil(winners.length / carsPerPage)}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
     </main>
   );
 };

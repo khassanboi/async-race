@@ -1,0 +1,13 @@
+.winners__winner {
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.winners__winner-icon {
+  font-size: 2rem;
+  color: transparent;
+  -webkit-mask: url(/src/assets/car-side-solid.svg) no-repeat left;
+  mask: url(/src/assets/car-side-solid.svg) no-repeat left;
+}

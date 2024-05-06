@@ -1,0 +1,12 @@
+.cars__car-list-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.cars__pagination {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
