@@ -21,10 +21,10 @@ export const getWinner = (id: number) => axios.get(`${winnersUrl}/${id}`);
 export const createWinner = (newWinner: Winner) =>
   axios.post(winnersUrl, newWinner);
 export const deleteWinner = (id: number) => axios.delete(`${winnersUrl}/${id}`);
-export const updateWinner = (id: number, wins: number, time: number) =>
-  axios.put(`${winnersUrl}/${id}`, {
-    wins,
-    time,
+export const updateWinner = (winner: Winner) =>
+  axios.put(`${winnersUrl}/${winner.id}`, {
+    wins: winner.wins,
+    time: winner.time,
   });
 
 export const startEngine = (id: number) =>

@@ -7,10 +7,13 @@ export const getWinners = createAsyncThunk('winners/getWinners', async () => {
   return response.data;
 });
 
-export const getWinner = createAsyncThunk('cars/getCar', async (id: number) => {
-  const response = await api.getWinner(id);
-  return response.data;
-});
+export const getWinner = createAsyncThunk(
+  'winners/getWinner',
+  async (id: number) => {
+    const response = await api.getWinner(id);
+    return response.data;
+  }
+);
 
 export const createWinner = createAsyncThunk(
   'winners/createWinner',
@@ -28,13 +31,13 @@ export const deleteWinner = createAsyncThunk(
   }
 );
 
-// export const updateWinner = createAsyncThunk(
-//   'winners/updateWinner',
-//   async (winner: Winner) => {
-//     const response = await api.updateWinner(winner);
-//     return response.data;
-//   }
-// );
+export const updateWinner = createAsyncThunk(
+  'winners/updateWinner',
+  async (winner: Winner) => {
+    const response = await api.updateWinner(winner);
+    return response.data;
+  }
+);
 
 const winnersSlice = createSlice({
   name: 'winners',
@@ -44,17 +47,20 @@ const winnersSlice = createSlice({
     builder.addCase(getWinners.fulfilled, (state, action) => {
       return action.payload;
     });
+    builder.addCase(getWinner.fulfilled, (state, action) => {
+      return action.payload;
+    });
     builder.addCase(createWinner.fulfilled, (state, action) => {
       state.push(action.payload);
     });
     builder.addCase(deleteWinner.fulfilled, (state, action) => {
       return state.filter((winner: Winner) => winner.id !== action.payload);
     });
-    // builder.addCase(updateWinner.fulfilled, (state, action) => {
-    //   return state.map((winner) =>
-    //     winner.id === action.payload.id ? action.payload : winner
-    //   );
-    // });
+    builder.addCase(updateWinner.fulfilled, (state, action) => {
+      return state.map((winner) =>
+        winner.id === action.payload.id ? action.payload : winner
+      );
+    });
   },
 });
 

@@ -1,5 +1,5 @@
 import './CarItemStyles.css';
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '../Button/Button';
 import { useDispatch } from 'react-redux';
 import { deleteCar } from '../../redux/carsSlice';
@@ -32,6 +32,16 @@ export const CarItem = (props: CarItemProps) => {
         setDriveMode('completed');
         raceEndTime = new Date();
         props.setCarAmount((prevCarAmount: number) => prevCarAmount + 1);
+
+        if (raceEndTime && raceStartTime) {
+          props.setContestants((prevContestants: Winner[]) => [
+            ...prevContestants,
+            {
+              id: props.carId,
+              time: (raceEndTime.getTime() - raceStartTime.getTime()) / 1000,
+            },
+          ]);
+        }
       };
     }
   }, []);
@@ -41,15 +51,6 @@ export const CarItem = (props: CarItemProps) => {
 
     try {
       await drive(id);
-      if (raceEndTime && raceStartTime) {
-        props.setContestants((prevContestants: Winner[]) => [
-          ...prevContestants,
-          {
-            id,
-            time: (raceEndTime.getTime() - raceStartTime.getTime()) / 1000,
-          },
-        ]);
-      }
     } catch (error) {
       if (driveMode !== 'paused') {
         handleStopEngine(id, 'broken');

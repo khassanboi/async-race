@@ -1,12 +1,16 @@
 import './CarListStyles.css';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Control } from '../Control/Control';
 import { CarItem } from '../CarItem/CarItem';
 import { Car, Winner } from '../../types';
 import { getCars } from '../../redux/carsSlice';
-import { getWinner, createWinner } from '../../redux/winnersSlice';
+import {
+  getWinner,
+  createWinner,
+  updateWinner,
+} from '../../redux/winnersSlice';
 import { Button } from '../Button/Button';
 
 export const CarList = () => {
@@ -23,14 +27,41 @@ export const CarList = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (carAmount === 3) {
-      const winner = contestants.reduce((prev, current) =>
-        prev.time < current.time ? prev : current
-      );
-      dispatch(createWinner({ ...winner, wins: 1 }) as any);
-      console.log('Winner: ', { ...winner, wins: 1 });
-    }
-  }, [carAmount]);
+    const updateOrCreateWinner = async () => {
+      if (carAmount === 2 && contestants.length === 2) {
+        const winner = contestants.reduce((prev, current) =>
+          prev.time < current.time ? prev : current
+        );
+
+        try {
+          const getWinnerResult = await dispatch(getWinner(winner.id) as any);
+          const winnerData = getWinnerResult.payload;
+
+          if (winnerData) {
+            await dispatch(
+              updateWinner({
+                id: winner.id,
+                wins: winnerData.wins + 1,
+                time: winner.time,
+              }) as any
+            );
+          } else {
+            await dispatch(
+              createWinner({
+                id: winner.id,
+                wins: 1,
+                time: winner.time,
+              }) as any
+            );
+          }
+        } catch (error) {
+          console.error('Failed to recognize a winner!');
+        }
+      }
+    };
+
+    updateOrCreateWinner();
+  }, [carAmount, contestants, dispatch]);
 
   const indexOfLastCar = currentPage * carsPerPage;
   const indexOfFirstCar = indexOfLastCar - carsPerPage;
@@ -46,11 +77,12 @@ export const CarList = () => {
   return (
     <div className="cars__car-list">
       <Control selectedCar={selectedCar} startRace={startRace} />
+
       {cars ? (
         currentCars.map((car: Car) => (
           <CarItem
             key={car.id}
-            carName={car.name}
+            carName={car.name || 'WINNER'}
             carColor={car.color}
             carId={car.id ? car.id : 0}
             setSelectedCar={setSelectedCar}
