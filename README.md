@@ -2,7 +2,11 @@
 
 This project is an implementation of an asynchronous racing game.
 
-## Getting Started
+## ⭐ Score Calculation
+
+350 (+35) out of 395
+
+## ⚡ Getting Started
 
 These instructions will help you on installing and running the application on your local machine for assessment and testing purposes.
 
