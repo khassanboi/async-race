@@ -3,8 +3,9 @@ import { ControlContainer } from './ControlContainer/ControlContainer';
 import { ControlForm } from './ControlForm/ControlForm';
 import { Button } from '../Button/Button';
 import { Car } from '../../types';
-import { createCar, updateCar } from '../../redux/carsSlice';
+import { createCar } from '../../redux/carsSlice';
 import { useDispatch } from 'react-redux';
+import { swalt } from '../../utilities/swalt';
 
 type ControlProps = {
   selectedCar?: Car;
@@ -43,15 +44,33 @@ const carModels = [
 export const Control = (props: ControlProps) => {
   const dispatch = useDispatch();
 
-  const generateCars = () => {
-    const numberOfCars = prompt(
-      'How many cars would you like to generate? (1-100)',
-      '100'
-    );
-    if (numberOfCars === null || isNaN(parseInt(numberOfCars))) {
+  const generateCars = async () => {
+    const { value: numberOfCars } = await swalt.fire({
+      title: `How many random cars would you like to generate?`,
+      icon: 'question',
+      input: 'number',
+      inputLabel: '(1-100)',
+      inputValue: '100',
+      inputAttributes: {
+        min: '1',
+        max: '100',
+      },
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to enter a number!';
+        } else if (parseInt(value) < 1 || parseInt(value) > 100) {
+          return 'Please enter a number between 1 and 100!';
+        }
+      },
+    });
+
+    if (
+      numberOfCars === null ||
+      isNaN(parseInt(numberOfCars)) ||
+      parseInt(numberOfCars) < 1 ||
+      parseInt(numberOfCars) > 100
+    ) {
       return;
-    } else if (parseInt(numberOfCars) < 1 || parseInt(numberOfCars) > 100) {
-      alert('Please enter a number between 1 and 100!');
     } else {
       for (let i = 0; i < parseInt(numberOfCars); i++) {
         const carName = `${
@@ -62,10 +81,17 @@ export const Control = (props: ControlProps) => {
         )}`;
         dispatch(createCar({ name: carName, color: carColor }) as any)
           .then(() => {
-            console.log('New car has successfully been added: ' + carName);
+            swalt.fire({
+              title: `${numberOfCars} new random cars have been succesfully created!`,
+              icon: 'success',
+            });
           })
-          .catch(() => {
-            alert('Failed to add new car!');
+          .catch((error: { message: string }) => {
+            swalt.fire({
+              title: `Failed to add new cars! Try again later`,
+              text: error.message,
+              icon: 'error',
+            });
           });
       }
     }

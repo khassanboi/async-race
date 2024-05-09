@@ -12,7 +12,6 @@ import {
   updateWinner,
 } from '../../redux/winnersSlice';
 import { Button } from '../Button/Button';
-import * as api from '../../api/index';
 import { swalt } from '../../utilities/swalt';
 
 export const CarList = () => {
