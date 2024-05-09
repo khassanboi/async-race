@@ -11,6 +11,7 @@ type WinnerItemProps = {
 
 export const WinnerItem = (props: WinnerItemProps) => {
   const [winnerCar, setWinnerCar] = useState<Car | null>(null);
+  const NUMBER_OF_DIGITS_AFTER_DECIMAL = 2;
 
   useEffect(() => {
     api.getCar(props.id).then((res) => {
@@ -30,7 +31,7 @@ export const WinnerItem = (props: WinnerItemProps) => {
       <div className="winners__winner-detail">{winnerCar?.name}</div>
       <div className="winners__winner-detail">{props.wins}</div>
       <div className="winners__winner-detail">
-        {Math.round(props.time * 100) / 100} sec
+        {Number(props.time.toFixed(NUMBER_OF_DIGITS_AFTER_DECIMAL))} sec
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export const getWinner = createAsyncThunk(
   async (id: number) => {
     const response = await api.getWinner(id);
     return response.data;
-  }
+  },
 );
 
 export const createWinner = createAsyncThunk(
@@ -20,7 +20,7 @@ export const createWinner = createAsyncThunk(
   async (winner: Winner) => {
     const response = await api.createWinner(winner);
     return response.data;
-  }
+  },
 );
 
 export const deleteWinner = createAsyncThunk(
@@ -28,7 +28,7 @@ export const deleteWinner = createAsyncThunk(
   async (id: number) => {
     await api.deleteWinner(id);
     return id;
-  }
+  },
 );
 
 export const updateWinner = createAsyncThunk(
@@ -36,7 +36,7 @@ export const updateWinner = createAsyncThunk(
   async (winner: Winner) => {
     const response = await api.updateWinner(winner);
     return response.data;
-  }
+  },
 );
 
 const winnersSlice = createSlice({
@@ -58,7 +58,7 @@ const winnersSlice = createSlice({
     });
     builder.addCase(updateWinner.fulfilled, (state, action) => {
       return state.map((winner) =>
-        winner.id === action.payload.id ? action.payload : winner
+        winner.id === action.payload.id ? action.payload : winner,
       );
     });
   },

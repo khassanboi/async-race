@@ -18,7 +18,7 @@ export const createCar = createAsyncThunk(
   async (newCar: Car) => {
     const response = await api.createCar(newCar);
     return response.data;
-  }
+  },
 );
 
 export const deleteCar = createAsyncThunk(
@@ -26,19 +26,19 @@ export const deleteCar = createAsyncThunk(
   async (id: number) => {
     await api.deleteCar(id);
     return id;
-  }
+  },
 );
 
 export const updateCar = createAsyncThunk(
   'cars/updateCar',
   async (updatedCar: Car) => {
-    const response = await api.updateCar(
+    await api.updateCar(
       updatedCar.id as number,
       updatedCar.name,
-      updatedCar.color
+      updatedCar.color,
     );
     return updatedCar;
-  }
+  },
 );
 
 const carsSlice = createSlice({
@@ -51,7 +51,7 @@ const carsSlice = createSlice({
     });
     builder.addCase(getCar.fulfilled, (state, action) => {
       return state.map((car) =>
-        car.id === action.payload.id ? action.payload : car
+        car.id === action.payload.id ? action.payload : car,
       );
     });
     builder.addCase(createCar.fulfilled, (state, action) => {
@@ -62,7 +62,7 @@ const carsSlice = createSlice({
     });
     builder.addCase(updateCar.fulfilled, (state, action) => {
       return state.map((car) =>
-        car.id === action.payload.id ? action.payload : car
+        car.id === action.payload.id ? action.payload : car,
       );
     });
   },

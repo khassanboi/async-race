@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "airbnb-typescript",
+    "prettier",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
+  "plugins": ["prettier", "import"],
+  "rules": {
+    "prettier/prettier": "error",
+    "max-lines-per-function": ["error", 40],
+    "no-magic-numbers": "error",
+    "no-template-curly-in-string": "error"
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  }
+}
