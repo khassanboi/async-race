@@ -38,21 +38,25 @@ export const CarList = () => {
         try {
           const getWinnerResult = await dispatch(getWinner(winner.id) as any);
           const winnerData = getWinnerResult.payload;
-          const winnerCar = cars.find((car: Car) => car.id === winner.id);
+          const winnerCar = await cars.find((car: Car) => car.id === winner.id);
 
           if (winnerData) {
             await dispatch(
               updateWinner({
                 id: winner.id,
                 wins: winnerData.wins + 1,
-                time: winner.time,
+                time:
+                  winner.time > winnerData.time ? winnerData.time : winner.time,
               }) as any
             );
             swalt.fire({
               title: `${winnerCar?.name} has won the race again!`,
               text: `Time: ${winner.time.toFixed(2)} sec | Wins: ${
                 winnerData.wins + 1
-              }`,
+              } | Best Time: ${(winner.time > winnerData.time
+                ? winnerData.time
+                : winner.time
+              ).toFixed(2)} sec`,
             });
           } else {
             await dispatch(
@@ -64,7 +68,7 @@ export const CarList = () => {
             );
             swalt.fire({
               title: `${winnerCar?.name} has won the race for the first time!`,
-              text: `Time: ${winnerData.time.toFixed(2)} sec`,
+              text: `Time: ${winner.time.toFixed(2)} sec`,
             });
           }
         } catch (error) {
