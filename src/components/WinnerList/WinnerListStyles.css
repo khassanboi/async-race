@@ -16,6 +16,9 @@
 
 .winners__header * {
   width: 20%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .winners__footer {

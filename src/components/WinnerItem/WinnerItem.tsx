@@ -4,9 +4,11 @@ import { Car } from '../../types';
 import * as api from '../../api/index';
 
 type WinnerItemProps = {
-  id: number;
-  time: number;
-  wins: number;
+  winner: {
+    id: number;
+    time: number;
+    wins: number;
+  };
 };
 
 export const WinnerItem = (props: WinnerItemProps) => {
@@ -14,14 +16,14 @@ export const WinnerItem = (props: WinnerItemProps) => {
   const NUMBER_OF_DIGITS_AFTER_DECIMAL = 2;
 
   useEffect(() => {
-    api.getCar(props.id).then((res) => {
+    api.getCar(props.winner.id).then((res) => {
       setWinnerCar(res.data);
     });
   }, []);
 
   return (
     <div className="winners__winner">
-      <div className="winners__winner-detail">{props.id}</div>
+      <div className="winners__winner-detail">{props.winner.id}</div>
       <div
         className="winners__winner-detail winners__winner-icon"
         style={{ backgroundColor: winnerCar?.color }}
@@ -29,9 +31,9 @@ export const WinnerItem = (props: WinnerItemProps) => {
         Car Icon
       </div>
       <div className="winners__winner-detail">{winnerCar?.name}</div>
-      <div className="winners__winner-detail">{props.wins}</div>
+      <div className="winners__winner-detail">{props.winner.wins}</div>
       <div className="winners__winner-detail">
-        {Number(props.time.toFixed(NUMBER_OF_DIGITS_AFTER_DECIMAL))} sec
+        {Number(props.winner.time.toFixed(NUMBER_OF_DIGITS_AFTER_DECIMAL))} sec
       </div>
     </div>
   );
