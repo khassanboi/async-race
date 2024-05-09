@@ -15,7 +15,8 @@ type CarItemProps = {
   carId: number;
   setSelectedCar: (car: Car) => void;
   setContestants: (contestants: any) => void;
-  setCarAmount: (carAmount: any) => void;
+  setSuccessfulCarAmount: (successfulCarAmount: any) => void;
+  setBrokenCarAmount: (brokenCarAmount: any) => void;
 };
 
 type DriveModeState = 'initial' | 'drive' | 'paused' | 'broken' | 'completed';
@@ -33,7 +34,9 @@ export const CarItem = (props: CarItemProps) => {
       carIcon.onanimationend = () => {
         setDriveMode('completed');
         raceEndTime = new Date();
-        props.setCarAmount((prevCarAmount: number) => prevCarAmount + 1);
+        props.setSuccessfulCarAmount(
+          (prevSuccessfulCarAmount: number) => prevSuccessfulCarAmount + 1
+        );
 
         if (raceEndTime && raceStartTime) {
           props.setContestants((prevContestants: Winner[]) => [
@@ -58,6 +61,9 @@ export const CarItem = (props: CarItemProps) => {
         handleStopEngine(id, 'broken');
       }
       console.error(`Engine of car number ${id} has broken!`, error);
+      props.setBrokenCarAmount(
+        (prevBrokenCarAmount: number) => prevBrokenCarAmount + 1
+      );
     }
   };
 

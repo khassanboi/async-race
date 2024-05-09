@@ -21,7 +21,8 @@ export const CarList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const carsPerPage = 7;
   const [contestants, setContestants] = useState<Winner[]>([]);
-  const [carAmount, setCarAmount] = useState<number>(0);
+  const [successfulCarAmount, setSuccessfulCarAmount] = useState<number>(0);
+  const [brokenCarAmount, setBrokenCarAmount] = useState<number>(0);
 
   useEffect(() => {
     dispatch(getCars() as any);
@@ -29,58 +30,73 @@ export const CarList = () => {
 
   useEffect(() => {
     const updateOrCreateWinner = async () => {
-      if (carAmount === 2 && contestants.length === 2) {
-        const winner = contestants.reduce((prev, current) =>
-          prev.time < current.time ? prev : current
-        );
-
-        try {
-          const getWinnerResult = await dispatch(getWinner(winner.id) as any);
-          const winnerData = getWinnerResult.payload;
-          const winnerCar = await cars.find((car: Car) => car.id === winner.id);
-
-          if (winnerData) {
-            await dispatch(
-              updateWinner({
-                id: winner.id,
-                wins: winnerData.wins + 1,
-                time:
-                  winner.time > winnerData.time ? winnerData.time : winner.time,
-              }) as any
-            );
-            swalt.fire({
-              title: `${winnerCar?.name} has won the race again!`,
-              text: `Time: ${winner.time.toFixed(2)} sec | Wins: ${
-                winnerData.wins + 1
-              } | Best Time: ${(winner.time > winnerData.time
-                ? winnerData.time
-                : winner.time
-              ).toFixed(2)} sec`,
-            });
-          } else {
-            await dispatch(
-              createWinner({
-                id: winner.id,
-                wins: 1,
-                time: winner.time,
-              }) as any
-            );
-            swalt.fire({
-              title: `${winnerCar?.name} has won the race for the first time!`,
-              text: `Time: ${winner.time.toFixed(2)} sec`,
-            });
-          }
-        } catch (error) {
-          console.error(
-            `Failed to recognize a winner number ${winner.id}!`,
-            error
+      if (brokenCarAmount > 0 || successfulCarAmount > 0) {
+        if (
+          (successfulCarAmount === 2 && contestants.length === 2) ||
+          (brokenCarAmount + 1 == currentCars.length &&
+            contestants.length === 1)
+        ) {
+          const winner = contestants.reduce((prev, current) =>
+            prev.time < current.time ? prev : current
           );
+
+          try {
+            const getWinnerResult = await dispatch(getWinner(winner.id) as any);
+            const winnerData = getWinnerResult.payload;
+            const winnerCar = await cars.find(
+              (car: Car) => car.id === winner.id
+            );
+
+            if (winnerData) {
+              await dispatch(
+                updateWinner({
+                  id: winner.id,
+                  wins: winnerData.wins + 1,
+                  time:
+                    winner.time > winnerData.time
+                      ? winnerData.time
+                      : winner.time,
+                }) as any
+              );
+              swalt.fire({
+                title: `${winnerCar?.name} has won the race again!`,
+                text: `Time: ${winner.time.toFixed(2)} sec | Wins: ${
+                  winnerData.wins + 1
+                } | Best Time: ${(winner.time > winnerData.time
+                  ? winnerData.time
+                  : winner.time
+                ).toFixed(2)} sec`,
+              });
+            } else {
+              await dispatch(
+                createWinner({
+                  id: winner.id,
+                  wins: 1,
+                  time: winner.time,
+                }) as any
+              );
+              swalt.fire({
+                title: `${winnerCar?.name} has won the race for the first time!`,
+                text: `Time: ${winner.time.toFixed(2)} sec`,
+              });
+            }
+          } catch (error) {
+            console.error(
+              `Failed to recognize a winner number ${winner.id}!`,
+              error
+            );
+          }
+        } else if (brokenCarAmount === currentCars.length) {
+          swalt.fire({
+            title: 'No winners this time!',
+            text: 'All cars are broken',
+          });
         }
       }
     };
 
     updateOrCreateWinner();
-  }, [carAmount, contestants, dispatch]);
+  }, [successfulCarAmount, contestants, brokenCarAmount, dispatch]);
 
   const indexOfLastCar = currentPage * carsPerPage;
   const indexOfFirstCar = indexOfLastCar - carsPerPage;
@@ -106,7 +122,8 @@ export const CarList = () => {
             carId={car.id ? car.id : 0}
             setSelectedCar={setSelectedCar}
             setContestants={setContestants}
-            setCarAmount={setCarAmount}
+            setSuccessfulCarAmount={setSuccessfulCarAmount}
+            setBrokenCarAmount={setBrokenCarAmount}
           />
         ))
       ) : (
