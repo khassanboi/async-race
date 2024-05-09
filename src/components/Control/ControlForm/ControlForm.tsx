@@ -5,6 +5,7 @@ import './ControlFormStyles.css';
 import { ControlContainer } from '../ControlContainer/ControlContainer';
 import { Button } from '../../Button/Button';
 import { Car } from '../../../types';
+import { swalt } from '../../../utilities/swalt';
 
 interface ControlFormProps {
   placeholder: string;
@@ -30,19 +31,33 @@ export const ControlForm = (props: ControlFormProps) => {
     if (props.submitType === 'create') {
       dispatch(createCar(car) as any)
         .then(() => {
-          alert('New car has successfully been added!');
+          swalt.fire({
+            title: `${car.name} has been succesfully created!`,
+            icon: 'success',
+          });
         })
-        .catch(() => {
-          alert('Failed to add new car!');
+        .catch((error: { message: string }) => {
+          swalt.fire({
+            title: `Failed to create a car! Try again later`,
+            text: error.message,
+            icon: 'error',
+          });
         });
       setCar({ name: '', color: '' });
     } else if (props.submitType === 'update' && props.selectedCar) {
       dispatch(updateCar({ ...car, id: props.selectedCar.id }) as any)
         .then(() => {
-          alert('Car has successfully been updated!');
+          swalt.fire({
+            title: `${car.name} has been succesfully updated!`,
+            icon: 'success',
+          });
         })
-        .catch(() => {
-          alert('Failed to update car!');
+        .catch((error: { message: string }) => {
+          swalt.fire({
+            title: `Failed to update the car! Try again later`,
+            text: error.message,
+            icon: 'error',
+          });
         });
     }
   };

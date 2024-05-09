@@ -7,6 +7,7 @@ import { deleteWinner } from '../../redux/winnersSlice';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { Car, Winner } from '../../types';
 import { startEngine, stopEngine, drive } from '../../api';
+import { swalt } from '../../utilities/swalt';
 
 type CarItemProps = {
   carName: string;
@@ -56,7 +57,7 @@ export const CarItem = (props: CarItemProps) => {
       if (driveMode !== 'paused') {
         handleStopEngine(id, 'broken');
       }
-      console.error('Engine has broken!', error);
+      console.error(`Engine of car number ${id} has broken!`, error);
     }
   };
 
@@ -79,8 +80,12 @@ export const CarItem = (props: CarItemProps) => {
           setDriveMode('drive');
         }
       }
-    } catch (error) {
-      console.error('Failed to start!', error);
+    } catch (error: { message: string } | any) {
+      swalt.fire({
+        title: `Failed to start the car engine!`,
+        text: error.message,
+        icon: 'error',
+      });
       setDriveMode('broken');
     }
   };
@@ -95,10 +100,42 @@ export const CarItem = (props: CarItemProps) => {
 
     try {
       await stopEngine(id);
-    } catch (error) {
-      console.error('Failed to stop!', error);
+    } catch (error: { message: string } | any) {
+      swalt.fire({
+        title: `Failed to stop the car engine!`,
+        text: error.message,
+        icon: 'error',
+      });
       setDriveMode('broken');
     }
+  };
+
+  const handleDeleteCar = async (id: number) => {
+    swalt
+      .fire({
+        title: 'Are you sure?',
+        text: 'You cannot revert this action',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        confirmButtonColor: '#d33',
+        cancelButtonText: 'No, cancel!',
+        cancelButtonColor: '#3085d6',
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await dispatch(deleteCar(id));
+            await dispatch(deleteWinner(id));
+          } catch (error: { message: string } | any) {
+            swalt.fire({
+              title: `Failed to delete the car! Try again later`,
+              text: error.message,
+              icon: 'error',
+            });
+          }
+        }
+      });
   };
 
   return (
@@ -108,8 +145,7 @@ export const CarItem = (props: CarItemProps) => {
           <Button
             className="btn--purple btn--small"
             onClick={() => {
-              dispatch(deleteCar(props.carId));
-              dispatch(deleteWinner(props.carId));
+              handleDeleteCar(props.carId);
             }}
           >
             Remove

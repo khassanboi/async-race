@@ -12,6 +12,8 @@ import {
   updateWinner,
 } from '../../redux/winnersSlice';
 import { Button } from '../Button/Button';
+import * as api from '../../api/index';
+import { swalt } from '../../utilities/swalt';
 
 export const CarList = () => {
   const cars = useSelector((state: RootState) => state.cars);
@@ -36,6 +38,7 @@ export const CarList = () => {
         try {
           const getWinnerResult = await dispatch(getWinner(winner.id) as any);
           const winnerData = getWinnerResult.payload;
+          const winnerCar = cars.find((car: Car) => car.id === winner.id);
 
           if (winnerData) {
             await dispatch(
@@ -45,6 +48,12 @@ export const CarList = () => {
                 time: winner.time,
               }) as any
             );
+            swalt.fire({
+              title: `${winnerCar?.name} has won the race again!`,
+              text: `Time: ${winner.time.toFixed(2)} sec | Wins: ${
+                winnerData.wins + 1
+              }`,
+            });
           } else {
             await dispatch(
               createWinner({
@@ -53,9 +62,16 @@ export const CarList = () => {
                 time: winner.time,
               }) as any
             );
+            swalt.fire({
+              title: `${winnerCar?.name} has won the race for the first time!`,
+              text: `Time: ${winnerData.time.toFixed(2)} sec`,
+            });
           }
         } catch (error) {
-          console.error('Failed to recognize a winner!');
+          console.error(
+            `Failed to recognize a winner number ${winner.id}!`,
+            error
+          );
         }
       }
     };
