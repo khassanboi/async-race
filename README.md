@@ -1,6 +1,6 @@
-# ASYNC-RACE APPLICATION
+# 🏁 ASYNC-RACE APPLICATION
 
-This project is an implementation of an asynchronous racing game.
+This is an interactive asynchronous racing game built with JavaScript. The game simulates unpredictable races between multiple cars, demonstrating the power of asynchronous programming. It features a user-friendly interface, a robust backend server, and a comprehensive testing suite.
 
 ## ⭐ Score Calculation
 
@@ -10,13 +10,13 @@ This project is an implementation of an asynchronous racing game.
 
 These instructions will help you on installing and running the application on your local machine for assessment and testing purposes.
 
-### Server
+### 🗄️ Server
 
 Make sure you have a backend server running on port `http://localhost:3000`
 
 [Instructions for Running the Server](https://github.com/mikhama/async-race-api)
 
-### Client
+### 🌐 Client
 
 #### Online Deployed Page
 
@@ -57,7 +57,7 @@ Now, open your browser and navigate to `http://localhost:4000` (or whatever port
 
 ---
 
-## Checklist
+## 📝 Checklist
 
 ### 🚀 UI Deployment
 
