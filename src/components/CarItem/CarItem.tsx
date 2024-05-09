@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Button } from '../Button/Button';
 import { useDispatch } from 'react-redux';
 import { deleteCar } from '../../redux/carsSlice';
+import { deleteWinner } from '../../redux/winnersSlice';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { Car, Winner } from '../../types';
 import { startEngine, stopEngine, drive } from '../../api';
@@ -108,6 +109,7 @@ export const CarItem = (props: CarItemProps) => {
             className="btn--purple btn--small"
             onClick={() => {
               dispatch(deleteCar(props.carId));
+              dispatch(deleteWinner(props.carId));
             }}
           >
             Remove
