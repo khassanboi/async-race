@@ -13,7 +13,7 @@ type WinnerListProps = {
   setWinners: React.Dispatch<React.SetStateAction<never[]>>;
 };
 
-const WINNERS_PER_PAGE = 7;
+const WINNERS_PER_PAGE = 10;
 const DEFAULT_CURRENT_PAGE = 1;
 const SINGLE_INCREMENT = 1;
 
