@@ -10,6 +10,7 @@ import { swalt } from '../../utilities/swalt';
 type ControlProps = {
   selectedCar?: Car;
   startRace: () => void;
+  disableControl: boolean;
 };
 
 const carBrands = [
@@ -100,7 +101,11 @@ export const Control = (props: ControlProps) => {
   return (
     <section className="control">
       <ControlContainer>
-        <Button className="btn--blue" onClick={props.startRace} type="button">
+        <Button
+          className={`btn--blue ${props.disableControl ? 'btn--disabled' : ''}`}
+          onClick={props.startRace}
+          type="button"
+        >
           Race
         </Button>
         <Button className="btn--blue">Reset</Button>

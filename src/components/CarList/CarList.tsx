@@ -23,6 +23,7 @@ export const CarList = () => {
   const [contestants, setContestants] = useState<Winner[]>([]);
   const [successfulCarAmount, setSuccessfulCarAmount] = useState<number>(0);
   const [brokenCarAmount, setBrokenCarAmount] = useState<number>(0);
+  const [disableControl, setDisableControl] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(getCars() as any);
@@ -104,6 +105,7 @@ export const CarList = () => {
   const totalPages = Math.ceil(cars.length / carsPerPage);
 
   const startRace = () => {
+    setDisableControl(true);
     currentCars.forEach((car: Car) => {
       document.getElementById(`car-start-engine-${car.id}`)?.click();
     });
@@ -111,7 +113,11 @@ export const CarList = () => {
 
   return (
     <div className="cars__car-list">
-      <Control selectedCar={selectedCar} startRace={startRace} />
+      <Control
+        selectedCar={selectedCar}
+        startRace={startRace}
+        disableControl={disableControl}
+      />
 
       {cars.length ? (
         currentCars.map((car: Car) => (
