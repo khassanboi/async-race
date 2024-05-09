@@ -11,9 +11,14 @@ export const WinnerList = () => {
   const carsPerPage = 7;
 
   useEffect(() => {
-    api.getWinners().then((res) => {
-      setWinners(res.data);
-    });
+    api
+      .getWinners()
+      .then((res) => {
+        setWinners(res.data);
+      })
+      .catch((error) => {
+        console.error('Failed to get winners', error);
+      });
   }, []);
 
   const indexOfLastCar = currentPage * carsPerPage;
@@ -30,7 +35,7 @@ export const WinnerList = () => {
         <div className="winners__header-title">Car Wins</div>
         <div className="winners__header-title">Car Best Time</div>
       </div>
-      {winners ? (
+      {winners.length ? (
         currentWinners.map((winner: Winner) => (
           <WinnerItem
             key={winner.id}
@@ -40,7 +45,7 @@ export const WinnerList = () => {
           />
         ))
       ) : (
-        <p>No winners available</p>
+        <p className="cars__no-car">No winners available</p>
       )}
       <div className="winners__footer">
         <h3 className="winners__total-number">

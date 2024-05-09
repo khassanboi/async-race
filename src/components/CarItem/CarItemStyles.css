@@ -47,7 +47,7 @@
   -webkit-mask: url(/src/assets/car-side-solid.svg) no-repeat center;
   mask: url(/src/assets/car-side-solid.svg) no-repeat center;
   z-index: 99;
-  animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in;
   animation-fill-mode: forwards;
 }
 

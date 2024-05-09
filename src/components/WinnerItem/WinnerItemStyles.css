@@ -1,8 +1,13 @@
 .winners__winner {
+  width: 100%;
   padding: 0 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.winners__winner * {
+  width: 20%;
 }
 
 .winners__winner-icon {

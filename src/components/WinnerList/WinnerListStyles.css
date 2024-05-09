@@ -2,18 +2,20 @@
   display: flex;
   flex-direction: column;
   padding: 0;
-}
-
-.winners * {
   width: 100%;
 }
 
 .winners__header {
+  width: 100%;
   padding: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 0.5px solid #fff;
+}
+
+.winners__header * {
+  width: 20%;
 }
 
 .winners__footer {
@@ -22,11 +24,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  width: 100%;
 }
 
 .winners__pagination {
   display: flex;
-  width: 50%;
   align-items: center;
   gap: 1rem;
 }

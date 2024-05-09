@@ -78,7 +78,7 @@ export const CarList = () => {
     <div className="cars__car-list">
       <Control selectedCar={selectedCar} startRace={startRace} />
 
-      {cars ? (
+      {cars.length ? (
         currentCars.map((car: Car) => (
           <CarItem
             key={car.id}
@@ -91,7 +91,7 @@ export const CarList = () => {
           />
         ))
       ) : (
-        <p>No cars available</p>
+        <p className="cars__no-car">No cars available</p>
       )}
       <div className="cars__car-list-footer">
         <h3 className="cars__total-number">{cars.length} cars in total</h3>
