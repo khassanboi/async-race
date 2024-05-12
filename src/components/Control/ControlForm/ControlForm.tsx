@@ -44,6 +44,12 @@ const handleSubmit = (
   event.preventDefault();
 
   if (props.submitType === 'create') {
+    if (!car.name) {
+      return swalt.fire({
+        title: 'Please enter a car name!',
+        icon: 'error',
+      });
+    }
     dispatch(createCar(car) as any)
       .then(() => {
         alertSuccess(car, 'create');
@@ -52,7 +58,13 @@ const handleSubmit = (
         alertError(error, 'create');
       });
     setCar({ name: '', color: '' });
-  } else if (props.submitType === 'update' && props.selectedCar) {
+  } else if (props.submitType === 'update') {
+    if (!car.name || !props.selectedCar) {
+      return swalt.fire({
+        title: 'Please select a car!',
+        icon: 'error',
+      });
+    }
     dispatch(updateCar({ ...car, id: props.selectedCar.id }) as any)
       .then(() => {
         alertSuccess(car, 'update');
@@ -64,7 +76,7 @@ const handleSubmit = (
 };
 
 export const ControlForm = (props: ControlFormProps) => {
-  const [car, setCar] = useState({ name: '', color: '' });
+  const [car, setCar] = useState({ name: '', color: '#ff0000' });
   const dispatch = useAppDispatch();
 
   useEffect(() => {
