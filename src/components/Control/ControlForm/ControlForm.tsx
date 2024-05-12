@@ -11,9 +11,9 @@ import type { ThunkDispatch } from '@reduxjs/toolkit';
 interface ControlFormProps {
   placeholder: string;
   buttonText: string;
-  buttonClassName: string;
   selectedCar?: Car | null;
   submitType: 'create' | 'update';
+  noData: boolean;
 }
 
 const alertError = (
@@ -90,7 +90,10 @@ export const ControlForm = (props: ControlFormProps) => {
         value={car.color ? car.color : '#000000'}
         onChange={(event) => setCar({ ...car, color: event.target.value })}
       />
-      <Button className={props.buttonClassName} type="submit">
+      <Button
+        className={`btn--green ${props.noData ? 'btn--disabled' : ''}`}
+        type="submit"
+      >
         {props.buttonText}
       </Button>
     </ControlContainer>

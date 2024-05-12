@@ -1,12 +1,11 @@
 import './CarListStyles.css';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import { RootState, useAppDispatch } from '../../redux/store';
 import { Control } from '../Control/Control';
 import { CarItem } from '../CarItem/CarItem';
 import { Car, Winner } from '../../types';
 import { getCars } from '../../redux/carsSlice';
-import { useAppDispatch } from '../../redux/store';
 import {
   getWinner,
   createWinner,
@@ -177,6 +176,7 @@ type CarListProps = {
   setCurrentPage: (currentPage: number) => void;
   totalPages: number;
   currentPage: number;
+  noData?: boolean;
 };
 
 const CarListFooter = (props: CarListProps) => {
@@ -188,7 +188,7 @@ const CarListFooter = (props: CarListProps) => {
           onClick={() =>
             props.setCurrentPage(props.currentPage - SINGLE_INCREMENT)
           }
-          className="btn btn--blue"
+          className={`btn--blue ${props.noData ? 'btn--disabled' : ''}`}
           disabled={props.currentPage === DEFAULT_CURRENT_PAGE}
         >
           Previous
@@ -200,7 +200,7 @@ const CarListFooter = (props: CarListProps) => {
           onClick={() =>
             props.setCurrentPage(props.currentPage + SINGLE_INCREMENT)
           }
-          className="btn btn--blue"
+          className={`btn--blue ${props.noData ? 'btn--disabled' : ''}`}
           disabled={
             props.currentPage === Math.ceil(props.cars.length / CARS_PER_PAGE)
           }
@@ -219,6 +219,7 @@ const renderCarList = (props: CarListProps) => {
         selectedCar={props.selectedCar}
         startRace={() => startRace(props.setDisableControl, props.currentCars)}
         disableControl={props.disableControl}
+        noData={!props.cars.length}
       />
 
       {props.cars.length ? (
@@ -237,7 +238,7 @@ const renderCarList = (props: CarListProps) => {
       ) : (
         <p className="cars__no-car">No cars available</p>
       )}
-      <CarListFooter {...props} />
+      <CarListFooter {...props} noData={!props.cars.length} />
     </div>
   );
 };
@@ -270,6 +271,8 @@ export const CarList = () => {
   const [brkCarAmt, setBrkCarAmt] = useState<number>(BRK_CAR_AMT);
   const [disableControl, setDisableControl] = useState<boolean>(false);
   const { currentCars, totalPages } = calculatePagination(cars, currentPage);
+
+  console.log('currentCars', cars);
 
   const competitionProps = {
     brkCarAmt,

@@ -11,6 +11,7 @@ type WinnerListProps = {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   totalPages: number;
   setWinners: React.Dispatch<React.SetStateAction<never[]>>;
+  noData?: boolean;
 };
 
 const WINNERS_PER_PAGE = 10;
@@ -150,7 +151,7 @@ const WinnerListFooter = (props: WinnerListProps) => {
       </h3>
       <div className="winners__pagination">
         <Button
-          className="btn btn--blue"
+          className={`btn--blue ${props.noData ? 'btn--disabled' : ''}`}
           onClick={() =>
             props.setCurrentPage(props.currentPage - SINGLE_INCREMENT)
           }
@@ -162,7 +163,7 @@ const WinnerListFooter = (props: WinnerListProps) => {
           Page {props.currentPage} of {props.totalPages}
         </h3>
         <Button
-          className="btn btn--blue"
+          className={`btn--blue ${props.noData ? 'btn--disabled' : ''}`}
           onClick={() =>
             props.setCurrentPage(props.currentPage + SINGLE_INCREMENT)
           }
@@ -220,6 +221,7 @@ export const WinnerList = () => {
         setCurrentPage={setCurrentPage}
         totalPages={totalPages}
         setWinners={setWinners}
+        noData={!winners.length}
       />
     </main>
   );

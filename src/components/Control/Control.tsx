@@ -12,6 +12,7 @@ type ControlProps = {
   selectedCar?: Car;
   startRace: () => void;
   disableControl: boolean;
+  noData: boolean;
 };
 
 const carBrands = [
@@ -126,42 +127,56 @@ const generateCars = async (
   createRandomCars(parsedNumberOfCars, dispatch);
 };
 
+const renderControlButtons = (
+  dispatch: ThunkDispatch<RootState, unknown, any>,
+  props: ControlProps,
+) => {
+  return (
+    <ControlContainer>
+      <Button
+        className={`btn--blue ${props.disableControl || props.noData ? 'btn--disabled' : ''}`}
+        onClick={props.startRace}
+        type="button"
+      >
+        Race
+      </Button>
+      <Button
+        className={`btn--blue ${props.noData ? 'btn--disabled' : ''}`}
+        disabled={props.noData}
+      >
+        Reset
+      </Button>
+      <Button
+        className={`btn--blue ${props.noData ? 'btn--disabled' : ''}`}
+        onClick={() => {
+          generateCars(dispatch);
+        }}
+        type="button"
+      >
+        Generate Cars
+      </Button>
+    </ControlContainer>
+  );
+};
+
 export const Control = (props: ControlProps) => {
   const dispatch = useAppDispatch();
-
+  console.log(props.noData);
   return (
     <section className="control">
-      <ControlContainer>
-        <Button
-          className={`btn--blue ${props.disableControl ? 'btn--disabled' : ''}`}
-          onClick={props.startRace}
-          type="button"
-        >
-          Race
-        </Button>
-        <Button className="btn--blue">Reset</Button>
-        <Button
-          className="btn--blue"
-          onClick={() => {
-            generateCars(dispatch);
-          }}
-          type="button"
-        >
-          Generate Cars
-        </Button>
-      </ControlContainer>
+      {renderControlButtons(dispatch, props)}
       <ControlForm
         placeholder="New Car Name"
         buttonText="Create"
-        buttonClassName="btn--green"
         submitType="create"
+        noData={props.noData}
       />
       <ControlForm
         placeholder="Existing Car Name"
         buttonText="Update"
-        buttonClassName="btn--green"
         submitType="update"
         selectedCar={props.selectedCar}
+        noData={props.noData}
       />
     </section>
   );
